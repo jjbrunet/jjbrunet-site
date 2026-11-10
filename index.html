@@ -82,6 +82,7 @@
   .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
   .filters input,.filters select{background:#000;border:1px solid var(--line);color:var(--text);font:inherit;font-size:12px;padding:8px 10px;border-radius:4px;outline:none}
   .filters input{flex:1;min-width:160px}
+  .filters input.bpmin{flex:0 0 96px;min-width:0}
   .filters select{color:var(--muted);cursor:pointer}
   .filters input:focus,.filters select:focus{border-color:var(--dim)}
   .count{font-size:11px;color:var(--dim);letter-spacing:1px;margin-bottom:12px}
@@ -153,7 +154,7 @@
   <div class="wrap">
     <h1>JJ Brunet</h1>
     <p class="genres">rage · pluggnb · trap · melodic · indie pop · indie rock · alt</p>
-    <form class="search" onsubmit="event.preventDefault();document.getElementById('beats').scrollIntoView();">
+    <form class="search" onsubmit="event.preventDefault();(document.getElementById('beats').hidden ? document.getElementById('free') : document.getElementById('beats')).scrollIntoView();">
       <input id="q" type="search" placeholder="what type of beat are you looking for?" autocomplete="off">
       <button type="submit">search</button>
     </form>
@@ -182,13 +183,8 @@
     <p class="intro">beats i'm giving away. download free, use them how the terms below say, just credit me.</p>
     <div class="filters">
       <input id="fq" type="search" placeholder="search free beats…" autocomplete="off">
-      <select id="fbpm" aria-label="bpm">
-        <option value="">any bpm</option>
-        <option value="0-119">under 120</option>
-        <option value="120-139">120 – 139</option>
-        <option value="140-159">140 – 159</option>
-        <option value="160-999">160+</option>
-      </select>
+      <input id="fmin" class="bpmin" type="number" inputmode="numeric" min="40" max="250" placeholder="min bpm" aria-label="minimum bpm">
+      <input id="fmax" class="bpmin" type="number" inputmode="numeric" min="40" max="250" placeholder="max bpm" aria-label="maximum bpm">
       <select id="fkey" aria-label="key"><option value="">any key</option></select>
       <select id="fsort" aria-label="sort">
         <option value="new">newest</option>
@@ -199,7 +195,7 @@
     </div>
     <p class="count" id="fcount"></p>
     <div id="freeList"></div>
-    <p id="fempty" class="empty" hidden>no free beats match that — try another bpm or key.</p>
+    <p id="fempty" class="empty" hidden>no free beats match that — try a wider bpm range or another key.</p>
 
     <div class="terms">
       <div class="name">free beat terms</div>
@@ -279,11 +275,13 @@
    buy:     Payhip link (leave "" until ready — goes to IG DMs)
    featured: true = shows big at the top (otherwise newest beat is featured) */
 const BEATS = [
-  { title: "cards", artists: ["destroy lonely", "ken carson", "opium"], genre: "trap", bpm: 135, key: "D# minor", added: "2026-11-09", file: "beats/cards.mp3", cover: "covers/cards.jpg", with: "fkmob", buy: "", sold: false, featured: true },
 ];
 /* ===== FREE BEATS (throwaways) =====
    title, bpm, key, with (co-producer), added (YYYY-MM-DD), file (tagged mp3 in free/) */
 const FREE_BEATS = [
+  { title: "cards", bpm: 135, key: "D# minor", with: "fkmob", added: "2026-11-10", file: "free/cards.mp3", cover: "covers/cards.jpg", featured: true },
+  { title: "bleach", bpm: 120, key: "F minor", with: "lennyflp & prodlambda", added: "2026-11-10", file: "free/bleach.mp3" },
+  { title: "omegas", bpm: 149, key: "D minor", with: "icewall & whykley", added: "2026-11-10", file: "free/omegas.mp3" },
   { title: "2000s gold", bpm: 94, key: "C# minor", with: "dmo", added: "2026-11-09", file: "free/2000s-gold.mp3" },
   { title: "extrominator", bpm: 133, key: "E minor", with: "prodbylac", added: "2026-11-09", file: "free/extrominator.mp3" },
   { title: "ended", bpm: 154, key: "B minor", with: "troyanbeatz & 1jefejunior", added: "2026-11-09", file: "free/ended.mp3" },
@@ -391,6 +389,7 @@ const list = document.getElementById('beatList'), q = document.getElementById('q
 
 const isNew = b => (Date.now() - new Date(b.added)) / 864e5 <= NEW_DAYS;
 const fullTitle = b => `${b.title}${b.artists && b.artists.length ? ' — ' + b.artists.join(' / ') : ''}`;
+const hasPaid = BEATS.length > 0;
 const coverHTML = b => b.cover ? `<button class="cover" aria-label="play ${b.title}"><img src="${b.cover}" alt=""><span class="ic">▶</span></button>`
                                : `<button class="cover blank" aria-label="play ${b.title}">${LOGO}<span class="ic">▶</span></button>`;
 const actionsHTML = b => b.sold ? '<span class="meta">sold exclusive</span>'
@@ -423,17 +422,17 @@ audio.onended = () => { if (current) { current.classList.remove('playing'); curr
 
 /* featured */
 function renderFeatured(){
-  const live = BEATS.filter(b => !b.sold);
+  const live = BEATS.filter(b => !b.sold).length ? BEATS.filter(b => !b.sold) : FREE_BEATS;
   const b = live.find(x => x.featured) || live.sort((a, c) => new Date(c.added) - new Date(a.added))[0];
   if (!b) { feat.innerHTML = ''; return; }
   feat.innerHTML = `<div class="featured">
     ${coverHTML(b)}
     <div>
-      <div class="label">featured beat · ${b.bpm} bpm · ${b.key}</div>
+      <div class="label">featured beat · ${b.bpm} bpm${b.key ? ' · ' + b.key : ''}</div>
       <div class="ftitle">${fullTitle(b)}</div>
-      <div class="meta">${b.genre}${b.with ? ` · w/ ${b.with}` : ''}</div>
+      <div class="meta">${b.genre ? b.genre + ' · ' : ''}prod. JJ Brunet${b.with ? ' x ' + b.with : ''}</div>
       <div class="bar"><i></i></div>
-      <div class="actions">${actionsHTML(b)}</div>
+      <div class="actions">${BEATS.includes(b) ? actionsHTML(b) : '<button class="btn free">free ↓</button>'}</div>
     </div></div>`;
   wire(feat.querySelector('.featured'), b);
 }
@@ -483,13 +482,13 @@ form.onsubmit = e => {
 };
 
 /* free list */
-const freeList = document.getElementById('freeList'), fq = document.getElementById('fq'), fbpm = document.getElementById('fbpm'),
+const freeList = document.getElementById('freeList'), fq = document.getElementById('fq'), fmin = document.getElementById('fmin'), fmax = document.getElementById('fmax'),
       fkey = document.getElementById('fkey'), fsort = document.getElementById('fsort'), fempty = document.getElementById('fempty'), fcount = document.getElementById('fcount');
 [...new Set(FREE_BEATS.map(b => b.key).filter(Boolean))].sort().forEach(k => { const o = document.createElement('option'); o.value = k; o.textContent = k; fkey.appendChild(o); });
 function renderFree(){
   audio.pause(); current = null;
   const term = fq.value.trim().toLowerCase();
-  const [lo, hi] = fbpm.value ? fbpm.value.split('-').map(Number) : [0, 999];
+  let lo = parseInt(fmin.value) || 0, hi = parseInt(fmax.value) || 999; if (lo > hi) [lo, hi] = [hi, lo];
   let rows = FREE_BEATS.filter(b => b.bpm >= lo && b.bpm <= hi && (!fkey.value || b.key === fkey.value) &&
     (!term || [b.title, b.key, String(b.bpm), b.with || ''].join(' ').toLowerCase().includes(term)));
   const s = fsort.value;
@@ -503,7 +502,7 @@ function renderFree(){
       ${coverHTML(b)}
       <div>
         <div class="title">${b.title}${isNew(b) ? '<span class="badge new">new</span>' : ''}</div>
-        <div class="meta">${b.bpm} bpm${b.key ? ' · ' + b.key : ''}${b.with ? ` · w/ ${b.with}` : ''}</div>
+        <div class="meta">${b.bpm} bpm${b.key ? ' · ' + b.key : ''} · prod. JJ Brunet${b.with ? ' x ' + b.with : ''}</div>
         <div class="bar"><i></i></div>
       </div>
       <div class="actions"><button class="btn free">free ↓</button></div>`;
@@ -511,9 +510,10 @@ function renderFree(){
     freeList.appendChild(row);
   });
 }
-[fq, fbpm, fkey, fsort].forEach(el => el.addEventListener(el === fq ? 'input' : 'change', renderFree));
+[fq, fmin, fmax].forEach(el => el.addEventListener('input', renderFree)); [fkey, fsort].forEach(el => el.addEventListener('change', renderFree));
 q.addEventListener('input', () => { fq.value = q.value; renderFree(); });
 q.oninput = render; sortSel.onchange = render;
+if (!hasPaid) { document.getElementById('beats').hidden = true; const nl = document.querySelector('nav a[href="#beats"]'); if (nl) nl.remove(); }
 renderFeatured(); render(); renderFree();
 document.getElementById('yr').textContent = new Date().getFullYear();
 </script>
