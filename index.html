@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JJ Brunet — Beats</title>
+<meta name="description" content="Beats by JJ Brunet — trap, rage, pluggnb, indie pop, indie rock. Free downloads for YouTube & SoundCloud. Leases from $24.99.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#000; --text:#ededed; --muted:#7a7a7a; --dim:#4a4a4a; --line:#1c1c1c; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;font-weight:300;font-size:14px;line-height:1.6;letter-spacing:.2px}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit}
+  .wrap{max-width:820px;margin:0 auto;padding:0 24px}
+
+  nav .wrap{display:flex;justify-content:space-between;align-items:center;height:72px}
+  .logo{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:400;letter-spacing:3px;text-transform:lowercase}
+  .mark{width:30px;height:30px}
+  nav .links{display:flex;gap:28px;font-size:12px;color:var(--muted);text-transform:lowercase}
+  nav .links a:hover{color:var(--text)}
+
+  header{padding:90px 0 40px}
+  h1{font-size:34px;font-weight:300;letter-spacing:1px}
+  .genres{margin-top:10px;font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:lowercase}
+  .search{margin-top:34px;display:flex;border:1px solid var(--dim);border-radius:4px;overflow:hidden}
+  .search input{flex:1;background:#000;border:0;color:var(--text);font:inherit;font-size:15px;padding:16px 18px;outline:none}
+  .search button{background:var(--text);color:#000;border:0;padding:0 22px;font-size:12px;letter-spacing:2px;text-transform:lowercase;cursor:pointer;font-weight:400}
+
+  /* featured */
+  .featured{display:grid;grid-template-columns:150px 1fr;gap:26px;align-items:center;margin-top:46px;padding:22px;border:1px solid var(--line);border-radius:4px}
+  .featured .cover{width:150px;height:150px}
+  .featured .label{font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:lowercase}
+  .featured .ftitle{font-size:24px;font-weight:300;margin:2px 0 4px}
+  .featured .actions{margin-top:14px}
+  @media(max-width:600px){ .featured{grid-template-columns:96px 1fr;gap:16px;padding:14px} .featured .cover{width:96px;height:96px} .featured .ftitle{font-size:18px} }
+
+  section{padding:60px 0}
+  h2{font-size:12px;font-weight:400;color:var(--muted);letter-spacing:3px;text-transform:lowercase;margin-bottom:22px}
+
+  /* covers + play */
+  .cover{position:relative;width:48px;height:48px;border-radius:3px;overflow:hidden;background:#111;border:0;cursor:pointer;padding:0;flex:none}
+  .cover img{width:100%;height:100%;object-fit:cover;display:block}
+  .cover .ic{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.35);color:#fff;font-size:11px;opacity:0;transition:.15s}
+  .cover:hover .ic,.playing .cover .ic{opacity:1}
+  .cover.blank{display:grid;place-items:center}
+  .cover.blank svg{width:60%;height:60%}
+
+  /* beats */
+  .beat{display:grid;grid-template-columns:48px 1fr auto;gap:16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+  .beat:first-child{border-top:1px solid var(--line)}
+  .title{font-weight:400}
+  .meta{font-size:12px;color:var(--muted)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+  .chip{font-size:10px;letter-spacing:.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;cursor:pointer;background:none}
+  .chip:hover{color:var(--text);border-color:var(--dim)}
+  .bar{height:1px;background:var(--line);margin-top:8px;cursor:pointer}
+  .bar i{display:block;height:100%;width:0;background:var(--text)}
+  .actions{display:flex;gap:10px;align-items:center;font-size:12px}
+  .btn{border:1px solid var(--dim);color:var(--text);background:none;padding:6px 12px;border-radius:3px;cursor:pointer;white-space:nowrap;font-size:12px}
+  .btn:hover{border-color:var(--text)}
+  .btn.solid{background:var(--text);color:#000;border-color:var(--text);font-weight:400}
+  .btn.ghost{border-color:transparent;color:var(--muted)}
+  .btn.ghost:hover{color:var(--text)}
+  @media(max-width:600px){ .beat{grid-template-columns:48px 1fr} .beat .actions{grid-column:2} nav .links{gap:16px} }
+
+  .controls{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .controls select{background:#000;border:1px solid var(--line);color:var(--muted);font:inherit;font-size:12px;padding:6px 10px;border-radius:4px;outline:none;cursor:pointer}
+  .tags{display:flex;flex-wrap:wrap;gap:8px}
+  .tag{background:none;border:1px solid var(--line);color:var(--muted);font-size:11px;letter-spacing:1px;padding:5px 11px;border-radius:999px;cursor:pointer;text-transform:lowercase}
+  .tag:hover{color:var(--text)}
+  .tag.on{border-color:var(--text);color:var(--text)}
+  .badge{font-size:10px;letter-spacing:1px;text-transform:lowercase;border:1px solid var(--dim);color:var(--muted);padding:1px 6px;border-radius:999px;margin-left:8px;vertical-align:2px}
+  .badge.new{border-color:var(--text);color:var(--text)}
+  .beat.sold .title{color:var(--muted);text-decoration:line-through}
+  .empty{color:var(--muted);font-size:12px;padding:18px 0}
+  .empty a{text-decoration:underline}
+
+  .intro{color:var(--muted);font-size:13px;margin:-10px 0 22px}
+  .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .filters input,.filters select{background:#000;border:1px solid var(--line);color:var(--text);font:inherit;font-size:12px;padding:8px 10px;border-radius:4px;outline:none}
+  .filters input{flex:1;min-width:160px}
+  .filters select{color:var(--muted);cursor:pointer}
+  .filters input:focus,.filters select:focus{border-color:var(--dim)}
+  .count{font-size:11px;color:var(--dim);letter-spacing:1px;margin-bottom:12px}
+  .terms{margin-top:30px;padding:18px 20px;border:1px solid var(--line);border-radius:4px}
+  .terms .name{font-size:12px;letter-spacing:2px;text-transform:lowercase;margin-bottom:8px}
+  .terms ul{list-style:none;font-size:13px;color:var(--muted)}
+  .terms li{padding:3px 0}
+  .terms li::before{content:"· "}
+  .terms b{color:var(--text);font-weight:400}
+  .terms a{text-decoration:underline}
+
+  /* licenses */
+  .lic{display:grid;grid-template-columns:1fr auto;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .lic:first-child{border-top:1px solid var(--line)}
+  .lic .name{font-weight:400}
+  .lic .pop{font-size:10px;letter-spacing:1px;border:1px solid var(--text);border-radius:999px;padding:1px 7px;margin-left:8px;vertical-align:2px}
+  .lic ul{list-style:none;font-size:12px;color:var(--muted);margin-top:4px}
+  .lic li::before{content:"· "}
+  .lic .price{font-weight:400;text-align:right}
+  .lic .price a{text-decoration:underline}
+  .deal{margin-top:22px;padding:16px 20px;border:1px solid var(--text);border-radius:4px;font-size:13px}
+  .deal b{font-weight:500}
+  .perk{margin-top:12px;padding:16px 20px;border:1px solid var(--line);border-radius:4px}
+  .perk .name{font-size:12px;letter-spacing:2px;text-transform:lowercase;margin-bottom:4px}
+  .perk .desc{font-size:13px;color:var(--muted)}
+  .note{margin-top:18px;font-size:12px;color:var(--muted)}
+
+  .faq details{border-bottom:1px solid var(--line);padding:14px 0}
+  .faq details:first-child{border-top:1px solid var(--line)}
+  .faq summary{cursor:pointer;list-style:none;font-weight:400}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";float:right;color:var(--muted)}
+  .faq details[open] summary::after{content:"–"}
+  .faq p{margin-top:8px;color:var(--muted);font-size:13px}
+
+  .contact a{display:block;padding:6px 0;color:var(--muted)}
+  .contact a:hover{color:var(--text)}
+  .contact span{color:var(--dim);display:inline-block;width:90px}
+
+  footer{padding:60px 0 50px;font-size:11px;color:var(--dim);letter-spacing:1px}
+
+  /* free download modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;place-items:center;padding:20px;z-index:10}
+  .modal.open{display:grid}
+  .box{background:#0a0a0a;border:1px solid var(--dim);border-radius:6px;padding:28px;max-width:400px;width:100%}
+  .box h3{font-weight:400;font-size:17px}
+  .box p{font-size:12px;color:var(--muted);margin:6px 0 18px}
+  .box input{width:100%;background:#000;border:1px solid var(--dim);color:var(--text);font:inherit;padding:12px;border-radius:4px;outline:none;margin-bottom:12px}
+  .box .row{display:flex;gap:10px;justify-content:flex-end}
+  .box .err{color:#c66;font-size:12px;margin:-4px 0 10px;display:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#" class="logo"><svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><defs><clipPath id="c"><circle cx="20" cy="20" r="19"/></clipPath></defs><circle cx="20" cy="20" r="19" fill="#ece8e1"/><g clip-path="url(#c)" fill="#141414"><path d="M2 6 C9 2 16 6 15 13 C14 19 7 20 3 16 C0 13 -1 8 2 6Z"/><path d="M24 2 C31 0 38 5 37 12 C36 17 29 17 26 13 C23 9 21 4 24 2Z"/><path d="M8 26 C14 23 21 27 20 33 C19 39 11 41 7 37 C4 34 4 28 8 26Z"/><path d="M28 24 C33 22 39 26 38 31 C37 35 32 36 29 33 C26 30 25 26 28 24Z"/><path d="M19 17 C21 16 23 17 23 19 C23 21 21 22 19 21 C18 20 18 18 19 17Z"/></g><circle cx="20" cy="20" r="19" fill="none" stroke="#2a2a2a"/></svg>jj brunet</a>
+    <div class="links">
+      <a href="#beats">beats</a>
+      <a href="#free">free beats</a>
+      <a href="#licenses">licenses</a>
+      <a href="#faq">faq</a>
+      <a href="#contact">contact</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <h1>JJ Brunet</h1>
+    <p class="genres">rage · pluggnb · trap · melodic · indie pop · indie rock · alt</p>
+    <form class="search" onsubmit="event.preventDefault();document.getElementById('beats').scrollIntoView();">
+      <input id="q" type="search" placeholder="what type of beat are you looking for?" autocomplete="off">
+      <button type="submit">search</button>
+    </form>
+    <div id="featured"></div>
+  </div>
+</header>
+
+<section id="beats">
+  <div class="wrap">
+    <div class="controls">
+      <div id="tags" class="tags"></div>
+      <select id="sort" aria-label="sort">
+        <option value="new">newest</option>
+        <option value="bpm-asc">bpm ↑</option>
+        <option value="bpm-desc">bpm ↓</option>
+      </select>
+    </div>
+    <div id="beatList"></div>
+    <p id="empty" class="empty" hidden>nothing matches that — try another vibe or <a href="https://www.instagram.com/jjbrunet9/" target="_blank">dm me for a custom</a>.</p>
+  </div>
+</section>
+
+<section id="free">
+  <div class="wrap">
+    <h2>free beats · throwaways</h2>
+    <p class="intro">beats i'm giving away. download free, use them how the terms below say, just credit me.</p>
+    <div class="filters">
+      <input id="fq" type="search" placeholder="search free beats…" autocomplete="off">
+      <select id="fbpm" aria-label="bpm">
+        <option value="">any bpm</option>
+        <option value="0-119">under 120</option>
+        <option value="120-139">120 – 139</option>
+        <option value="140-159">140 – 159</option>
+        <option value="160-999">160+</option>
+      </select>
+      <select id="fkey" aria-label="key"><option value="">any key</option></select>
+      <select id="fsort" aria-label="sort">
+        <option value="new">newest</option>
+        <option value="bpm-asc">bpm ↑</option>
+        <option value="bpm-desc">bpm ↓</option>
+        <option value="az">a – z</option>
+      </select>
+    </div>
+    <p class="count" id="fcount"></p>
+    <div id="freeList"></div>
+    <p id="fempty" class="empty" hidden>no free beats match that — try another bpm or key.</p>
+
+    <div class="terms">
+      <div class="name">free beat terms</div>
+      <ul>
+        <li>free for <b>non-profit</b> use only: youtube, soundcloud, tiktok, instagram — no monetizing</li>
+        <li>credit <b>"prod. JJ Brunet x [co-producer]"</b> in your title or description (the co-producer is listed on each beat)</li>
+        <li>keep the tag in — don't remove or cover it</li>
+        <li>no spotify, apple music or any paid platform, no selling the song, no content id</li>
+        <li>you don't own the beat — the producers keep all rights</li>
+        <li>want to release it for real? <a href="https://www.instagram.com/jjbrunet9/" target="_blank">dm me</a> and we'll work out a lease</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="licenses">
+  <div class="wrap">
+    <h2>licenses</h2>
+    <div class="lic"><div><div class="name">Free</div><ul><li>tagged mp3</li><li>non-profit only: youtube, soundcloud, tiktok, ig</li><li>credit "prod. JJ Brunet"</li><li>see <a href="#free" style="text-decoration:underline">free beat terms</a></li></ul></div><div class="price">$0</div></div>
+    <div class="lic"><div><div class="name">MP3 Lease</div><ul><li>untagged mp3</li><li>release on all streaming platforms</li><li>up to 100,000 streams</li><li>1 music video</li></ul></div><div class="price">$24.99</div></div>
+    <div class="lic"><div><div class="name">Unlimited Lease<span class="pop">popular</span></div><ul><li>untagged mp3</li><li>unlimited streams &amp; music videos</li><li>monetize anywhere</li></ul></div><div class="price">$59.99</div></div>
+    <div class="lic"><div><div class="name">Exclusive</div><ul><li>the beat is yours only</li><li>comes off the store for good</li></ul></div><div class="price"><a href="https://www.instagram.com/jjbrunet9/" target="_blank">make an offer</a></div></div>
+    <div class="deal"><b>buy 2, get 1 free</b> — on any lease. pick 3 beats, pay for 2.</div>
+    <div class="perk">
+      <div class="name">buyer perk</div>
+      <div class="desc">buy any lease and you get my direct number — hit me for custom beats and get first access to new beats before they drop.</div>
+    </div>
+    <p class="note">leases are non-exclusive and permanent. producer keeps ownership. if your song passes your stream limit, just upgrade.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>faq</h2>
+    <div class="faq">
+      <details><summary>what's a lease?</summary><p>you're buying the right to use the beat on your song and release it. other artists can lease the same beat until someone buys it exclusive.</p></details>
+      <details><summary>what happens if my song blows up?</summary><p>the mp3 lease covers up to 100,000 streams. if you pass that, upgrade to the unlimited lease — hit me and you only pay the difference.</p></details>
+      <details><summary>can i use a free beat on spotify?</summary><p>no — free downloads are for youtube and soundcloud only, no monetizing. to put it on spotify, apple or anywhere that pays, grab a lease.</p></details>
+      <details><summary>how do i get the files?</summary><p>right after you pay, the untagged file is emailed to you automatically.</p></details>
+      <details><summary>how do i credit you?</summary><p>put "prod. JJ Brunet" in your song title or description.</p></details>
+      <details><summary>do you make custom beats?</summary><p>yeah. buy any lease and you get my number, or dm me on instagram with a reference track and your budget.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <h2>contact</h2>
+    <div class="contact">
+      <a href="https://www.instagram.com/jjbrunet9/" target="_blank"><span>instagram</span>@jjbrunet9</a>
+      <a href="https://www.youtube.com/@jjbrunet" target="_blank"><span>youtube</span>@jjbrunet</a>
+      <a href="mailto:jjmadetbusiness@gmail.com"><span>email</span>jjmadetbusiness@gmail.com</a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">© <span id="yr"></span> jj brunet</div></footer>
+
+<div class="modal" id="modal">
+  <form class="box" id="freeForm">
+    <h3>free download — <span id="mTitle"></span></h3>
+    <p>drop your email and the tagged mp3 downloads right away. you'll also get new beats before they hit youtube.</p>
+    <input id="mEmail" type="email" placeholder="your email" required autocomplete="email">
+    <div class="err" id="mErr">put a real email in</div>
+    <div class="row">
+      <button type="button" class="btn ghost" id="mCancel">cancel</button>
+      <button type="submit" class="btn solid">download</button>
+    </div>
+  </form>
+</div>
+
+<script>
+/* ===== EDIT YOUR BEATS HERE =====
+   title:   beat name
+   artists: who it sounds like — shows in the title + is searchable
+   file:    tagged mp3 in beats/   ·  cover: square image in covers/ ("" = logo)
+   buy:     Payhip link (leave "" until ready — goes to IG DMs)
+   featured: true = shows big at the top (otherwise newest beat is featured) */
+const BEATS = [
+  { title: "cards", artists: ["destroy lonely", "ken carson", "opium"], genre: "trap", bpm: 135, key: "D# minor", added: "2026-11-09", file: "beats/cards.mp3", cover: "covers/cards.jpg", with: "fkmob", buy: "", sold: false, featured: true },
+];
+/* ===== FREE BEATS (throwaways) =====
+   title, bpm, key, with (co-producer), added (YYYY-MM-DD), file (tagged mp3 in free/) */
+const FREE_BEATS = [
+];
+const DM = "https://www.instagram.com/jjbrunet9/";
+const EMAIL_ENDPOINT = "https://formsubmit.co/ajax/jjmadetbusiness@gmail.com";
+const NEW_DAYS = 14;
+const LOGO = document.querySelector('.mark').outerHTML;
+
+const audio = new Audio(); let current = null; let activeTag = "all";
+const list = document.getElementById('beatList'), q = document.getElementById('q'), sortSel = document.getElementById('sort'),
+      tagsEl = document.getElementById('tags'), empty = document.getElementById('empty'), feat = document.getElementById('featured');
+
+const isNew = b => (Date.now() - new Date(b.added)) / 864e5 <= NEW_DAYS;
+const fullTitle = b => `${b.title}${b.artists && b.artists.length ? ' — ' + b.artists.join(' / ') : ''}`;
+const coverHTML = b => b.cover ? `<button class="cover" aria-label="play ${b.title}"><img src="${b.cover}" alt=""><span class="ic">▶</span></button>`
+                               : `<button class="cover blank" aria-label="play ${b.title}">${LOGO}<span class="ic">▶</span></button>`;
+const actionsHTML = b => b.sold ? '<span class="meta">sold exclusive</span>'
+  : `<button class="btn ghost free">free ↓</button><a class="btn solid" href="${b.buy || DM}" target="_blank">lease $24.99</a>`;
+
+/* genre tabs */
+["all", ...new Set(BEATS.map(b => b.genre))].forEach(g => {
+  const t = document.createElement('button'); t.className = 'tag' + (g === 'all' ? ' on' : ''); t.textContent = g;
+  t.onclick = () => { activeTag = g; [...tagsEl.children].forEach(x => x.classList.toggle('on', x === t)); render(); };
+  tagsEl.appendChild(t);
+});
+
+/* player */
+function wire(el, b){
+  const btn = el.querySelector('.cover'), bar = el.querySelector('.bar');
+  btn.onclick = () => {
+    if (current === el && !audio.paused) { audio.pause(); return; }
+    document.querySelectorAll('.playing').forEach(r => { r.classList.remove('playing'); r.querySelector('.ic').textContent = '▶'; const i = r.querySelector('.bar i'); if (i) i.style.width = 0; });
+    if (current !== el) { audio.src = b.file; current = el; }
+    audio.play().catch(() => {});
+  };
+  if (bar) bar.onclick = e => { if (current === el && audio.duration) audio.currentTime = (e.offsetX / bar.clientWidth) * audio.duration; };
+  const fr = el.querySelector('.free'); if (fr) fr.onclick = () => openFree(b);
+  el.querySelectorAll('.chip').forEach(c => c.onclick = () => { q.value = c.textContent; render(); });
+}
+audio.onplay = () => { if (current) { current.classList.add('playing'); current.querySelector('.ic').textContent = '❚❚'; } };
+audio.onpause = () => { if (current) current.querySelector('.ic').textContent = '▶'; };
+audio.ontimeupdate = () => { const i = current && current.querySelector('.bar i'); if (i && audio.duration) i.style.width = (audio.currentTime / audio.duration * 100) + '%'; };
+audio.onended = () => { if (current) { current.classList.remove('playing'); current.querySelector('.ic').textContent = '▶'; } };
+
+/* featured */
+function renderFeatured(){
+  const live = BEATS.filter(b => !b.sold);
+  const b = live.find(x => x.featured) || live.sort((a, c) => new Date(c.added) - new Date(a.added))[0];
+  if (!b) { feat.innerHTML = ''; return; }
+  feat.innerHTML = `<div class="featured">
+    ${coverHTML(b)}
+    <div>
+      <div class="label">featured beat · ${b.bpm} bpm · ${b.key}</div>
+      <div class="ftitle">${fullTitle(b)}</div>
+      <div class="meta">${b.genre}${b.with ? ` · w/ ${b.with}` : ''}</div>
+      <div class="bar"><i></i></div>
+      <div class="actions">${actionsHTML(b)}</div>
+    </div></div>`;
+  wire(feat.querySelector('.featured'), b);
+}
+
+/* list */
+function render(){
+  audio.pause(); current = null;
+  const term = q.value.trim().toLowerCase();
+  let rows = BEATS.filter(b => (activeTag === 'all' || b.genre === activeTag) &&
+    (!term || [b.title, (b.artists || []).join(' '), b.genre, b.key, String(b.bpm), b.with || ''].join(' ').toLowerCase().includes(term)));
+  const s = sortSel.value;
+  rows.sort((a, b) => s === 'bpm-asc' ? a.bpm - b.bpm : s === 'bpm-desc' ? b.bpm - a.bpm : new Date(b.added) - new Date(a.added));
+  list.innerHTML = ''; empty.hidden = rows.length > 0;
+  rows.forEach(b => {
+    const row = document.createElement('div'); row.className = 'beat' + (b.sold ? ' sold' : '');
+    const badge = b.sold ? '<span class="badge">sold</span>' : (isNew(b) ? '<span class="badge new">new</span>' : '');
+    row.innerHTML = `
+      ${coverHTML(b)}
+      <div>
+        <div class="title">${fullTitle(b)}${badge}</div>
+        <div class="meta">${b.genre} · ${b.bpm} bpm · ${b.key}${b.with ? ` · w/ ${b.with}` : ''}</div>
+        <div class="chips">${(b.artists || []).map(a => `<button class="chip">${a}</button>`).join('')}</div>
+        <div class="bar"><i></i></div>
+      </div>
+      <div class="actions">${actionsHTML(b)}</div>`;
+    wire(row, b);
+    list.appendChild(row);
+  });
+}
+
+/* free download w/ email */
+const modal = document.getElementById('modal'), form = document.getElementById('freeForm'), mEmail = document.getElementById('mEmail'), mErr = document.getElementById('mErr');
+let freeBeat = null;
+function openFree(b){ freeBeat = b; document.getElementById('mTitle').textContent = b.title; mErr.style.display = 'none'; modal.classList.add('open'); mEmail.focus(); }
+document.getElementById('mCancel').onclick = () => modal.classList.remove('open');
+modal.onclick = e => { if (e.target === modal) modal.classList.remove('open'); };
+form.onsubmit = e => {
+  e.preventDefault();
+  const email = mEmail.value.trim();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { mErr.style.display = 'block'; return; }
+  fetch(EMAIL_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ email, beat: freeBeat.title, _subject: `free download: ${freeBeat.title}`, _template: 'table' }) }).catch(() => {});
+  const a = document.createElement('a'); a.href = freeBeat.file; a.download = `${freeBeat.title} (prod. JJ Brunet${freeBeat.with ? ' x ' + freeBeat.with : ''}).mp3`;
+  document.body.appendChild(a); a.click(); a.remove();
+  modal.classList.remove('open'); mEmail.value = '';
+};
+
+/* free list */
+const freeList = document.getElementById('freeList'), fq = document.getElementById('fq'), fbpm = document.getElementById('fbpm'),
+      fkey = document.getElementById('fkey'), fsort = document.getElementById('fsort'), fempty = document.getElementById('fempty'), fcount = document.getElementById('fcount');
+[...new Set(FREE_BEATS.map(b => b.key).filter(Boolean))].sort().forEach(k => { const o = document.createElement('option'); o.value = k; o.textContent = k; fkey.appendChild(o); });
+function renderFree(){
+  audio.pause(); current = null;
+  const term = fq.value.trim().toLowerCase();
+  const [lo, hi] = fbpm.value ? fbpm.value.split('-').map(Number) : [0, 999];
+  let rows = FREE_BEATS.filter(b => b.bpm >= lo && b.bpm <= hi && (!fkey.value || b.key === fkey.value) &&
+    (!term || [b.title, b.key, String(b.bpm), b.with || ''].join(' ').toLowerCase().includes(term)));
+  const s = fsort.value;
+  rows.sort((a, b) => s === 'bpm-asc' ? a.bpm - b.bpm : s === 'bpm-desc' ? b.bpm - a.bpm : s === 'az' ? a.title.localeCompare(b.title) : new Date(b.added) - new Date(a.added));
+  freeList.innerHTML = '';
+  fcount.textContent = FREE_BEATS.length ? `${rows.length} of ${FREE_BEATS.length} beats` : 'first batch dropping soon';
+  fempty.hidden = rows.length > 0 || !FREE_BEATS.length;
+  rows.forEach(b => {
+    const row = document.createElement('div'); row.className = 'beat';
+    row.innerHTML = `
+      ${coverHTML(b)}
+      <div>
+        <div class="title">${b.title}${isNew(b) ? '<span class="badge new">new</span>' : ''}</div>
+        <div class="meta">${b.bpm} bpm${b.key ? ' · ' + b.key : ''}${b.with ? ` · w/ ${b.with}` : ''}</div>
+        <div class="bar"><i></i></div>
+      </div>
+      <div class="actions"><button class="btn free">free ↓</button></div>`;
+    wire(row, b);
+    freeList.appendChild(row);
+  });
+}
+[fq, fbpm, fkey, fsort].forEach(el => el.addEventListener(el === fq ? 'input' : 'change', renderFree));
+q.addEventListener('input', () => { fq.value = q.value; renderFree(); });
+q.oninput = render; sortSel.onchange = render;
+renderFeatured(); render(); renderFree();
+document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
