@@ -9,6 +9,12 @@
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#000000">
+<meta property="og:title" content="JJ Brunet — Beats">
+<meta property="og:description" content="Free beats + leases. Trap, rage, pluggnb, melodic, indie pop, indie rock.">
+<meta property="og:image" content="https://jjbrunet.com/og.jpg">
+<meta property="og:url" content="https://jjbrunet.com">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -203,6 +209,7 @@
     </div>
     <p class="count" id="fcount"></p>
     <div id="freeList"></div>
+    <button id="fmore" class="btn" style="margin-top:18px" hidden>load more</button>
     <p id="fempty" class="empty" hidden>no free beats match that — try a wider bpm range or another key.</p>
 
     <div class="terms">
@@ -514,7 +521,9 @@ form.onsubmit = e => {
 const freeList = document.getElementById('freeList'), fq = document.getElementById('fq'), fmin = document.getElementById('fmin'), fmax = document.getElementById('fmax'),
       fkey = document.getElementById('fkey'), fsort = document.getElementById('fsort'), fempty = document.getElementById('fempty'), fcount = document.getElementById('fcount');
 [...new Set(FREE_BEATS.map(b => b.key).filter(Boolean))].sort().forEach(k => { const o = document.createElement('option'); o.value = k; o.textContent = k; fkey.appendChild(o); });
-function renderFree(){
+let fShown = 20;
+function renderFree(keep){
+  if (!keep) fShown = 20;
   audio.pause(); current = null;
   const term = fq.value.trim().toLowerCase();
   let lo = parseInt(fmin.value) || 0, hi = parseInt(fmax.value) || 999; if (lo > hi) [lo, hi] = [hi, lo];
@@ -525,12 +534,14 @@ function renderFree(){
   freeList.innerHTML = '';
   fcount.textContent = FREE_BEATS.length ? `${rows.length} of ${FREE_BEATS.length} beats` : 'first batch dropping soon';
   fempty.hidden = rows.length > 0 || !FREE_BEATS.length;
+  const more = document.getElementById('fmore'); more.hidden = rows.length <= fShown; more.textContent = `load more (${rows.length - fShown} left)`; more.onclick = () => { fShown += 20; renderFree(true); };
+  rows = rows.slice(0, fShown);
   rows.forEach(b => {
     const row = document.createElement('div'); row.className = 'beat';
     row.innerHTML = `
       ${coverHTML(b)}
       <div>
-        <div class="title">${b.title}${isNew(b) ? '<span class="badge new">new</span>' : ''}</div>
+        <div class="title">${b.title}${isNew(b) && b.added > '2026-11-10' ? '<span class="badge new">new</span>' : ''}</div>
         <div class="meta">${b.bpm} bpm${b.key ? ' · ' + b.key : ''} · prod. JJ Brunet${b.with ? ' x ' + b.with : ''}</div>
         <div class="bar"><i></i></div><div class="time"></div>
       </div>
