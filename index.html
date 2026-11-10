@@ -412,7 +412,8 @@ form.onsubmit = e => {
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { mErr.style.display = 'block'; return; }
   fetch(EMAIL_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify({ email, beat: freeBeat.title, _subject: `free download: ${freeBeat.title}`, _template: 'table' }) }).catch(() => {});
-  const a = document.createElement('a'); a.href = freeBeat.file; a.download = `${freeBeat.title} (prod. JJ Brunet${freeBeat.with ? ' x ' + freeBeat.with : ''}).mp3`;
+  const a = document.createElement('a'); a.href = freeBeat.file; const k = (freeBeat.key || '').replace(' minor','min').replace(' major','maj');
+  a.download = `${freeBeat.title} ${freeBeat.bpm}bpm${k ? ' ' + k : ''} (prod. JJ Brunet${freeBeat.with ? ' x ' + freeBeat.with : ''}).mp3`;
   document.body.appendChild(a); a.click(); a.remove();
   modal.classList.remove('open'); mEmail.value = '';
 };
