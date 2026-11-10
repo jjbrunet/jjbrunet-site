@@ -216,8 +216,10 @@
     <h2>licenses</h2>
     <div class="lic"><div><div class="name">Free</div><ul><li>tagged mp3</li><li>non-profit only: youtube, soundcloud, tiktok, ig</li><li>credit "prod. JJ Brunet"</li><li>see <a href="#free" style="text-decoration:underline">free beat terms</a></li></ul></div><div class="price">$0</div></div>
     <div class="lic"><div><div class="name">MP3 Lease</div><ul><li>untagged mp3</li><li>release on all streaming platforms</li><li>up to 100,000 streams</li><li>1 music video</li></ul></div><div class="price">$24.99</div></div>
-    <div class="lic"><div><div class="name">Unlimited Lease<span class="pop">popular</span></div><ul><li>untagged mp3</li><li>unlimited streams &amp; music videos</li><li>monetize anywhere</li></ul></div><div class="price">$59.99</div></div>
+    <div class="lic"><div><div class="name">WAV Lease</div><ul><li>untagged wav + mp3</li><li>release on all streaming platforms</li><li>up to 250,000 streams</li><li>1 music video</li></ul></div><div class="price">$39.99</div></div>
+    <div class="lic"><div><div class="name">Unlimited Lease<span class="pop">popular</span></div><ul><li>untagged wav + mp3</li><li>unlimited streams &amp; music videos</li><li>monetize anywhere</li></ul></div><div class="price">$59.99</div></div>
     <div class="lic"><div><div class="name">Exclusive</div><ul><li>the beat is yours only</li><li>comes off the store for good</li></ul></div><div class="price"><a href="https://www.instagram.com/jjbrunet9/" target="_blank">make an offer</a></div></div>
+    <p class="note" style="margin-top:14px">beats with 3+ producers: mp3 $34.99 · wav $49.99 · unlimited $79.99 (the split goes 3 ways).</p>
     <div class="deal"><b>buy 2, get 1 free</b> — on any lease. pick 3 beats, pay for 2.</div>
     <div class="perk">
       <div class="name">buyer perk</div>
@@ -275,6 +277,7 @@
    buy:     Payhip link (leave "" until ready — goes to IG DMs)
    featured: true = shows big at the top (otherwise newest beat is featured) */
 const BEATS = [
+  { title: "top 3", artists: ["veeze", "lucki"], genre: "underground", bpm: 170, key: "F minor", added: "2026-11-10", file: "beats/top-3.mp3", cover: "covers/top-3.jpg", with: "whoiswonderyo & fielry", buy: "", sold: false, featured: true },
 ];
 /* ===== FREE BEATS (throwaways) =====
    title, bpm, key, with (co-producer), added (YYYY-MM-DD), file (tagged mp3 in free/) */
@@ -392,8 +395,10 @@ const fullTitle = b => `${b.title}${b.artists && b.artists.length ? ' — ' + b.
 const hasPaid = BEATS.length > 0;
 const coverHTML = b => b.cover ? `<button class="cover" aria-label="play ${b.title}"><img src="${b.cover}" alt=""><span class="ic">▶</span></button>`
                                : `<button class="cover blank" aria-label="play ${b.title}">${LOGO}<span class="ic">▶</span></button>`;
+const PRICES = { two: { mp3: 24.99, wav: 39.99, unl: 59.99 }, three: { mp3: 34.99, wav: 49.99, unl: 79.99 } };
+const tier = b => ((b.with || '').split('&').filter(x => x.trim()).length + 1) >= 3 ? PRICES.three : PRICES.two;
 const actionsHTML = b => b.sold ? '<span class="meta">sold exclusive</span>'
-  : `<button class="btn ghost free">free ↓</button><a class="btn solid" href="${b.buy || DM}" target="_blank">lease $24.99</a>`;
+  : `<button class="btn ghost free">free ↓</button><a class="btn solid" href="${b.buy || DM}" target="_blank">lease from $${tier(b).mp3}</a>`;
 
 /* genre tabs */
 ["all", ...new Set(BEATS.map(b => b.genre))].forEach(g => {
@@ -453,7 +458,7 @@ function render(){
       ${coverHTML(b)}
       <div>
         <div class="title">${fullTitle(b)}${badge}</div>
-        <div class="meta">${b.genre} · ${b.bpm} bpm · ${b.key}${b.with ? ` · w/ ${b.with}` : ''}</div>
+        <div class="meta">${b.genre} · ${b.bpm} bpm · ${b.key} · prod. JJ Brunet${b.with ? ' x ' + b.with : ''}</div>
         <div class="chips">${(b.artists || []).map(a => `<button class="chip">${a}</button>`).join('')}</div>
         <div class="bar"><i></i></div>
       </div>
