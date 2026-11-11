@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JJ Brunet — Beats</title>
-<meta name="description" content="Beats by JJ Brunet — trap, rage, pluggnb, indie pop, indie rock. Free downloads for YouTube & SoundCloud. Leases from $24.99.">
+<meta name="description" content="Beats by JJ Brunet — rage, underground, plugg, melodic, trap. Free downloads for YouTube & SoundCloud. Leases from $24.99.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#000000">
 <meta property="og:title" content="JJ Brunet — Beats">
-<meta property="og:description" content="Free beats + leases. Trap, rage, pluggnb, melodic, indie pop, indie rock.">
+<meta property="og:description" content="Free beats + leases. Rage, underground, plugg, melodic, trap.">
 <meta property="og:image" content="https://jjbrunet.com/og.jpg">
 <meta property="og:url" content="https://jjbrunet.com">
 <meta property="og:type" content="website">
@@ -168,7 +168,7 @@
 <header>
   <div class="wrap">
     <h1>JJ Brunet</h1>
-    <p class="genres">rage · pluggnb · trap · melodic · indie pop · indie rock · alt</p>
+    <p class="genres">rage · underground · plugg · melodic · trap</p>
     <form class="search" onsubmit="event.preventDefault();(document.getElementById('beats').hidden ? document.getElementById('free') : document.getElementById('beats')).scrollIntoView();">
       <input id="q" type="search" placeholder="what type of beat are you looking for?" autocomplete="off">
       <button type="submit">search</button>
@@ -291,7 +291,7 @@
    artists: who it sounds like — shows in the title + is searchable
    file:    tagged mp3 in beats/   ·  cover: square image in covers/ ("" = logo)
    buy:     Payhip link (leave "" until ready — goes to IG DMs)
-   featured: true = shows big at the top (otherwise newest beat is featured) */
+   (the newest beat at the top of the list is featured automatically) */
 const BEATS = [
   { title: "police", artists: ["glokk40spaz", "ian"], genre: "underground", bpm: 135, key: "F# minor", added: "2026-11-11", file: "beats/police.mp3", cover: "covers/police.jpg", with: "biesu", buy: "", sold: false },
   { title: "loafy", artists: ["ken carson"], genre: "rage", bpm: 145, key: "D# minor", added: "2026-11-11", file: "beats/loafy.mp3", cover: "covers/loafy.jpg", with: "hbwtf", buy: "", sold: false },
@@ -304,12 +304,12 @@ const BEATS = [
   { title: "all worked", artists: ["hurricane wisdom", "nocap"], genre: "street rap", bpm: 170, key: "G# minor", added: "2026-11-10", file: "beats/all-worked.mp3", cover: "covers/all-worked.jpg", with: "xyvoss & mst", buy: "", sold: false },
   { title: "my rules", artists: ["don toliver"], genre: "underground", bpm: 148, key: "", added: "2026-11-10", file: "beats/my-rules.mp3", cover: "covers/my-rules.jpg", with: "keelo2k", buy: "", sold: false },
   { title: "i83", artists: ["earthboyreese"], genre: "melodic underground", bpm: 144, key: "F major", added: "2026-11-10", file: "beats/i83.mp3", cover: "covers/i83.jpg", with: "8tnplus", buy: "", sold: false },
-  { title: "top 3", artists: ["veeze", "lucki"], genre: "underground", bpm: 170, key: "F minor", added: "2026-11-10", file: "beats/top-3.mp3", cover: "covers/top-3.jpg", with: "whoiswonderyo & fielry", buy: "", sold: false, featured: true },
+  { title: "top 3", artists: ["veeze", "lucki"], genre: "underground", bpm: 170, key: "F minor", added: "2026-11-10", file: "beats/top-3.mp3", cover: "covers/top-3.jpg", with: "whoiswonderyo & fielry", buy: "", sold: false },
 ];
 /* ===== FREE BEATS (throwaways) =====
    title, bpm, key, with (co-producer), added (YYYY-MM-DD), file (tagged mp3 in free/) */
 const FREE_BEATS = [
-  { title: "cards", bpm: 135, key: "D# minor", with: "fkmob", added: "2026-11-10", file: "free/cards.mp3", cover: "covers/cards.jpg", featured: true },
+  { title: "cards", bpm: 135, key: "D# minor", with: "fkmob", added: "2026-11-10", file: "free/cards.mp3", cover: "covers/cards.jpg" },
   { title: "bleach", bpm: 120, key: "F minor", with: "lennyflp & prodlambda", added: "2026-11-10", file: "free/bleach.mp3" },
   { title: "omegas", bpm: 149, key: "D minor", with: "icewall & whykley", added: "2026-11-10", file: "free/omegas.mp3" },
   { title: "2000s gold", bpm: 94, key: "C# minor", with: "dmo", added: "2026-11-09", file: "free/2000s-gold.mp3" },
@@ -470,7 +470,7 @@ audio.onended = () => { if (current) { current.classList.remove('playing'); curr
 /* featured */
 function renderFeatured(){
   const live = BEATS.filter(b => !b.sold).length ? BEATS.filter(b => !b.sold) : FREE_BEATS;
-  const b = live.find(x => x.featured) || live.sort((a, c) => new Date(c.added) - new Date(a.added))[0];
+  const b = live.slice().sort((a, c) => new Date(c.added) - new Date(a.added) || live.indexOf(a) - live.indexOf(c))[0];
   if (!b) { feat.innerHTML = ''; return; }
   feat.innerHTML = `<div class="featured">
     ${coverHTML(b)}
