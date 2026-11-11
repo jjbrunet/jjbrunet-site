@@ -63,6 +63,7 @@
   .beat:first-child{border-top:1px solid var(--line)}
   .title{font-weight:400}
   .meta{font-size:12px;color:var(--muted)}
+  .tagnote{font-size:11.5px;line-height:1.4;margin-top:6px;padding:6px 9px;border-radius:8px;background:rgba(255,190,60,.12);border:1px solid rgba(255,190,60,.45);color:#ffd88a}
   .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
   .chip{font-size:10px;letter-spacing:.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;cursor:pointer;background:none}
   .chip:hover{color:var(--text);border-color:var(--dim)}
@@ -292,6 +293,7 @@
    buy:     Payhip link (leave "" until ready — goes to IG DMs)
    featured: true = shows big at the top (otherwise newest beat is featured) */
 const BEATS = [
+  { title: "long overdue", artists: [], genre: "hard turnt", bpm: 150, key: "E minor", added: "2026-11-11", file: "beats/long-overdue.mp3", cover: "covers/long-overdue.jpg", with: "vgs midnight", note: "heads up: VGS Midnight's producer tag stays in this beat, even in the untagged lease files (MP3 + WAV). it will be in your song. that's part of his sample terms. credit: prod. JJ Brunet & VGS Midnight", buy: "", sold: false },
   { title: "plaques", artists: ["bladee", "yung lean"], genre: "cloud rap", bpm: 164, key: "E major", added: "2026-11-10", file: "beats/plaques.mp3", cover: "covers/plaques.jpg", with: "damoo", buy: "", sold: false },
   { title: "everyday", artists: ["lil baby", "offset"], genre: "trap", bpm: 170, key: "D# minor", added: "2026-11-10", file: "beats/everyday.mp3", cover: "covers/everyday.jpg", with: "xyvoss", buy: "", sold: false },
   { title: "all worked", artists: ["hurricane wisdom", "nocap"], genre: "street rap", bpm: 170, key: "G# minor", added: "2026-11-10", file: "beats/all-worked.mp3", cover: "covers/all-worked.jpg", with: "xyvoss & mst", buy: "", sold: false },
@@ -471,6 +473,7 @@ function renderFeatured(){
       <div class="label">featured beat · ${b.bpm} bpm${b.key ? ' · ' + b.key : ''}</div>
       <div class="ftitle">${fullTitle(b)}</div>
       <div class="meta">${b.genre ? b.genre + ' · ' : ''}prod. JJ Brunet${b.with ? ' x ' + b.with : ''}</div>
+      ${b.note ? `<div class="tagnote">⚠ ${b.note}</div>` : ''}
       <div class="bar"><i></i></div><div class="time"></div>
       <div class="actions">${BEATS.includes(b) ? actionsHTML(b) : '<button class="btn free">free ↓</button>'}</div>
     </div></div>`;
@@ -494,6 +497,7 @@ function render(){
       <div>
         <div class="title">${fullTitle(b)}${badge}</div>
         <div class="meta">${b.genre} · ${b.bpm} bpm${b.key ? ' · ' + b.key : ''} · prod. JJ Brunet${b.with ? ' x ' + b.with : ''}</div>
+        ${b.note ? `<div class="tagnote">⚠ ${b.note}</div>` : ''}
         <div class="chips">${(b.artists || []).map(a => `<button class="chip">${a}</button>`).join('')}</div>
         <div class="bar"><i></i></div><div class="time"></div>
       </div>
