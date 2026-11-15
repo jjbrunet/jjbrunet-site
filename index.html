@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JJ Brunet — Beats</title>
-<meta name="description" content="Beats by JJ Brunet — rage, underground, plugg, melodic, trap. Free downloads for YouTube & SoundCloud. Leases from $24.99.">
+<meta name="description" content="Beats by JJ Brunet — rage, underground, plugg, melodic, trap. Free downloads for non-profit YouTube, SoundCloud, TikTok & IG. Leases from $24.99.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -34,6 +34,7 @@
 
   header{padding:90px 0 40px}
   h1{font-size:34px;font-weight:300;letter-spacing:1px}
+  .tagline{margin-top:10px;font-size:15px;color:var(--text)}
   .genres{margin-top:10px;font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:lowercase}
   .search{margin-top:34px;display:flex;border:1px solid var(--dim);border-radius:4px;overflow:hidden}
   .search input{flex:1;background:#000;border:0;color:var(--text);font:inherit;font-size:15px;padding:16px 18px;outline:none}
@@ -86,6 +87,7 @@
   .tags{display:flex;flex-wrap:wrap;gap:8px}
   .tag{background:none;border:1px solid var(--line);color:var(--muted);font-size:11px;letter-spacing:1px;padding:5px 11px;border-radius:999px;cursor:pointer;text-transform:lowercase}
   .tag:hover{color:var(--text)}
+  :focus-visible{outline:2px solid var(--text);outline-offset:2px}
   .tag.on{border-color:var(--text);color:var(--text)}
   .badge{font-size:10px;letter-spacing:1px;text-transform:lowercase;border:1px solid var(--dim);color:var(--muted);padding:1px 6px;border-radius:999px;margin-left:8px;vertical-align:2px}
   .badge.new{border-color:var(--text);color:var(--text)}
@@ -168,9 +170,10 @@
 <header>
   <div class="wrap">
     <h1>JJ Brunet</h1>
+    <p class="tagline">100+ beats for underground artists. free downloads &amp; instant leases.</p>
     <p class="genres">rage · underground · plugg · melodic · trap</p>
     <form class="search" onsubmit="event.preventDefault();(document.getElementById('beats').hidden ? document.getElementById('free') : document.getElementById('beats')).scrollIntoView();">
-      <input id="q" type="search" placeholder="what type of beat are you looking for?" autocomplete="off">
+      <input id="q" aria-label="search beats" type="search" placeholder="what type of beat are you looking for?" autocomplete="off">
       <button type="submit">search</button>
     </form>
     <div id="featured"></div>
@@ -188,7 +191,7 @@
       </select>
     </div>
     <div id="beatList"></div>
-    <p id="empty" class="empty" hidden>nothing matches that — try another vibe or <a href="https://www.instagram.com/jjbrunet9/" target="_blank">dm me for a custom</a>.</p>
+    <p id="empty" class="empty" hidden>nothing matches that — try another vibe or <a href="https://www.instagram.com/jjbrunet9/" target="_blank" rel="noopener">dm me for a custom</a>.</p>
   </div>
 </section>
 
@@ -197,7 +200,7 @@
     <h2>free beats · throwaways</h2>
     <p class="intro">beats i'm giving away. download free, use them how the terms below say, just credit me.</p>
     <div class="filters">
-      <input id="fq" type="search" placeholder="search free beats…" autocomplete="off">
+      <input id="fq" aria-label="search free beats" type="search" placeholder="search free beats…" autocomplete="off">
       <input id="fmin" class="bpmin" type="number" inputmode="numeric" min="40" max="250" placeholder="min bpm" aria-label="minimum bpm">
       <input id="fmax" class="bpmin" type="number" inputmode="numeric" min="40" max="250" placeholder="max bpm" aria-label="maximum bpm">
       <select id="fkey" aria-label="key"><option value="">any key</option></select>
@@ -221,7 +224,7 @@
         <li>keep the tag in — don't remove or cover it</li>
         <li>no spotify, apple music or any paid platform, no selling the song, no content id</li>
         <li>you don't own the beat — the producers keep all rights</li>
-        <li>want to release it for real? <a href="https://www.instagram.com/jjbrunet9/" target="_blank">dm me</a> and we'll work out a lease</li>
+        <li>want to release it for real? <a href="https://www.instagram.com/jjbrunet9/" target="_blank" rel="noopener">dm me</a> and we'll work out a lease</li>
       </ul>
     </div>
   </div>
@@ -234,7 +237,7 @@
     <div class="lic"><div><div class="name">MP3 Lease</div><ul><li>untagged mp3</li><li>release on all streaming platforms</li><li>up to 100,000 streams</li><li>1 music video</li></ul></div><div class="price">$24.99</div></div>
     <div class="lic"><div><div class="name">WAV Lease</div><ul><li>untagged wav + mp3</li><li>release on all streaming platforms</li><li>up to 250,000 streams</li><li>1 music video</li></ul></div><div class="price">$39.99</div></div>
     <div class="lic"><div><div class="name">Unlimited Lease<span class="pop">popular</span></div><ul><li>untagged wav + mp3</li><li>unlimited streams &amp; music videos</li><li>monetize anywhere</li></ul></div><div class="price">$59.99</div></div>
-    <div class="lic"><div><div class="name">Exclusive</div><ul><li>the beat is yours only</li><li>comes off the store for good</li></ul></div><div class="price"><a href="https://www.instagram.com/jjbrunet9/" target="_blank">make an offer</a></div></div>
+    <div class="lic"><div><div class="name">Exclusive</div><ul><li>the beat is yours only</li><li>comes off the store for good</li></ul></div><div class="price"><a href="https://www.instagram.com/jjbrunet9/" target="_blank" rel="noopener">make an offer</a></div></div>
     <p class="note" style="margin-top:14px">beats with 3+ producers: mp3 $34.99 · wav $49.99 · unlimited $79.99 (the split goes 3 ways).</p>
     <div class="deal"><b>buy 2, get 1 free</b> — on any lease. pick 3 beats, pay for 2.</div>
     <div class="perk">
@@ -251,7 +254,7 @@
     <div class="faq">
       <details><summary>what's a lease?</summary><p>you're buying the right to use the beat on your song and release it. other artists can lease the same beat until someone buys it exclusive.</p></details>
       <details><summary>what happens if my song blows up?</summary><p>the mp3 lease covers up to 100,000 streams. if you pass that, upgrade to the unlimited lease — hit me and you only pay the difference.</p></details>
-      <details><summary>can i use a free beat on spotify?</summary><p>no — free downloads are for youtube and soundcloud only, no monetizing. to put it on spotify, apple or anywhere that pays, grab a lease.</p></details>
+      <details><summary>can i use a free beat on spotify?</summary><p>no — free downloads are for non-profit posts only (youtube, soundcloud, tiktok, instagram), no monetizing. to put it on spotify, apple or anywhere that pays, grab a lease.</p></details>
       <details><summary>how do i get the files?</summary><p>right after you pay, the untagged file is emailed to you automatically.</p></details>
       <details><summary>how do i credit you?</summary><p>put "prod. JJ Brunet" in your song title or description.</p></details>
       <details><summary>do you make custom beats?</summary><p>yeah. buy any lease and you get my number, or dm me on instagram with a reference track and your budget.</p></details>
@@ -263,8 +266,8 @@
   <div class="wrap">
     <h2>contact</h2>
     <div class="contact">
-      <a href="https://www.instagram.com/jjbrunet9/" target="_blank"><span>instagram</span>@jjbrunet9</a>
-      <a href="https://www.youtube.com/@jjbrunet" target="_blank"><span>youtube</span>@jjbrunet</a>
+      <a href="https://www.instagram.com/jjbrunet9/" target="_blank" rel="noopener"><span>instagram</span>@jjbrunet9</a>
+      <a href="https://www.youtube.com/@jjbrunet" target="_blank" rel="noopener"><span>youtube</span>@jjbrunet</a>
       <a href="mailto:jjmadetbusiness@gmail.com"><span>email</span>jjmadetbusiness@gmail.com</a>
     </div>
   </div>
@@ -275,8 +278,8 @@
 <div class="modal" id="modal">
   <form class="box" id="freeForm">
     <h3>free download — <span id="mTitle"></span></h3>
-    <p>drop your email and the tagged mp3 downloads right away. you'll also get new beats before they hit youtube.</p>
-    <input id="mEmail" type="email" placeholder="your email" required autocomplete="email">
+    <p>drop your email and the tagged mp3 downloads right away. i only use it to let you know when new beats drop — never sold, reply "stop" anytime.</p>
+    <input id="mEmail" aria-label="your email" type="email" placeholder="your email" required autocomplete="email">
     <div class="err" id="mErr">put a real email in</div>
     <div class="row">
       <button type="button" class="btn ghost" id="mCancel">cancel</button>
@@ -434,12 +437,12 @@ const coverHTML = b => b.cover ? `<button class="cover" aria-label="play ${b.tit
 const PRICES = { two: { mp3: 24.99, wav: 39.99, unl: 59.99 }, three: { mp3: 34.99, wav: 49.99, unl: 79.99 } };
 const tier = b => ((b.with || '').split('&').filter(x => x.trim()).length + 1) >= 3 ? PRICES.three : PRICES.two;
 const actionsHTML = b => b.sold ? '<span class="meta">sold exclusive</span>'
-  : `<button class="btn ghost free">free ↓</button><a class="btn solid" href="${b.buy || DM}" target="_blank">${b.buy ? "lease from $" + tier(b).mp3 : "lease $" + tier(b).mp3 + " · DM to buy"}</a>`;
+  : `<button class="btn ghost free">free ↓</button><a class="btn solid" href="${b.buy || DM}" target="_blank" rel="noopener" aria-label="${b.buy ? 'lease ' + b.title : 'dm to lease ' + b.title}">${b.buy ? "lease from $" + tier(b).mp3 : "lease $" + tier(b).mp3 + " · DM to buy"}</a>`;
 
 /* genre tabs */
 ["all", ...new Set(BEATS.map(b => b.genre))].forEach(g => {
-  const t = document.createElement('button'); t.className = 'tag' + (g === 'all' ? ' on' : ''); t.textContent = g;
-  t.onclick = () => { activeTag = g; [...tagsEl.children].forEach(x => x.classList.toggle('on', x === t)); render(); };
+  const t = document.createElement('button'); t.className = 'tag' + (g === 'all' ? ' on' : ''); t.textContent = g; t.setAttribute('aria-pressed', g === 'all');
+  t.onclick = () => { activeTag = g; [...tagsEl.children].forEach(x => { x.classList.toggle('on', x === t); x.setAttribute('aria-pressed', x === t); }); render(); };
   tagsEl.appendChild(t);
 });
 
@@ -476,6 +479,14 @@ function paint(){ if (!current || !audio.duration) return; const i = current.que
 audio.ontimeupdate = paint;
 audio.onended = () => { if (current) { current.classList.remove('playing'); current.querySelector('.ic').textContent = '▶'; } };
 
+/* keep the playing beat linked to its row after re-rendering */
+function relink(el, b){
+  if (current || !b.file || !audio.src || !audio.src.endsWith(encodeURI(b.file))) return;
+  current = el;
+  if (!audio.paused) { el.classList.add('playing'); el.querySelector('.ic').textContent = '❚❚'; }
+  paint();
+}
+
 /* featured */
 function renderFeatured(){
   const live = BEATS.filter(b => !b.sold).length ? BEATS.filter(b => !b.sold) : FREE_BEATS;
@@ -496,7 +507,7 @@ function renderFeatured(){
 
 /* list */
 function render(){
-  audio.pause(); current = null;
+  current = null;
   const term = q.value.trim().toLowerCase();
   let rows = BEATS.filter(b => (activeTag === 'all' || b.genre === activeTag) &&
     (!term || [b.title, (b.artists || []).join(' '), b.genre, b.key, String(b.bpm), b.with || ''].join(' ').toLowerCase().includes(term)));
@@ -516,7 +527,7 @@ function render(){
         <div class="bar"><i></i></div><div class="time"></div>
       </div>
       <div class="actions">${actionsHTML(b)}</div>`;
-    wire(row, b);
+    wire(row, b); relink(row, b);
     list.appendChild(row);
   });
 }
@@ -527,6 +538,7 @@ let freeBeat = null;
 function openFree(b){ freeBeat = b; document.getElementById('mTitle').textContent = b.title; mErr.style.display = 'none'; modal.classList.add('open'); mEmail.focus(); }
 document.getElementById('mCancel').onclick = () => modal.classList.remove('open');
 modal.onclick = e => { if (e.target === modal) modal.classList.remove('open'); };
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) modal.classList.remove('open'); });
 form.onsubmit = e => {
   e.preventDefault();
   const email = mEmail.value.trim();
@@ -546,7 +558,7 @@ const freeList = document.getElementById('freeList'), fq = document.getElementBy
 let fShown = 20;
 function renderFree(keep){
   if (!keep) fShown = 20;
-  audio.pause(); current = null;
+  current = null;
   const term = fq.value.trim().toLowerCase();
   let lo = parseInt(fmin.value) || 0, hi = parseInt(fmax.value) || 999; if (lo > hi) [lo, hi] = [hi, lo];
   let rows = FREE_BEATS.filter(b => b.bpm >= lo && b.bpm <= hi && (!fkey.value || b.key === fkey.value) &&
@@ -568,7 +580,7 @@ function renderFree(keep){
         <div class="bar"><i></i></div><div class="time"></div>
       </div>
       <div class="actions"><button class="btn free">free ↓</button></div>`;
-    wire(row, b);
+    wire(row, b); relink(row, b);
     freeList.appendChild(row);
   });
 }
